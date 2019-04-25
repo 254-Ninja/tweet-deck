@@ -24,7 +24,7 @@ def getstatus():
 def tweetthis(type):
         if type == "text":
                 print("Enter your tweet "+user.name)
-                tweet = getstatus(
+                tweet = getstatus()
                 tweet = getstatus()
                 try:
                      api.update_status(tweet)
@@ -38,8 +38,37 @@ def tweetthis(type):
                 title = getstatus()
 
                 try:
-                        api.update_with_media(pic, statustitle)
-                        
+                        api.update_with_media(pic, status=title)
+                except Exception as e:
+                    print(e)
+                    return
 
-                )
+        print("\n\nDONE!!")
+
+def initialize():
+        global api, auth, User
+        ck = "here" # consumer key
+        cks = "here" # consumer key SECRET
+        at = "here" # access token
+        ats = "here" # access token SECRET
+
+        auth = tweepy.OAuthHandler(ck,cks)
+	auth.set_access_token(at,ats)
+
+	    api = tweepy.API(auth)
+        user = api.me()
+
+
+def main():
+	doit = int(input("\n1. text\n2. picture\n"))
+	initialize()
+	if doit == 1:
+		tweetthis("text")
+	elif doit == 2:
+		tweetthis("pic")
+	else:
+		print("OK, Let's try again!")
+		main()
+
+main()                
             
